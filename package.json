@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/rizkirenden/back-end-2/issues"
   },
-  "homepage": "https://github.com/rizkirenden/back-end-2#readme"
+  "homepage": "https://github.com/rizkirenden/back-end-2#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
