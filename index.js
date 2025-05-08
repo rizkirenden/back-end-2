@@ -9,11 +9,12 @@ app.get("/", (req, res) => {
 
 // routes method POST
 app.post("/login", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello ini POST!");
 });
 
+// routes method PUT
 app.put("/put", ($req, res) => {
-  res.send("Hello World!");
+  res.send("Hello ini PUT!");
 });
 
 app.listen(port, () => {
