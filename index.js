@@ -9,7 +9,9 @@ app.get("/", (req, res) => {
 
 // routes method POST
 app.post("/login", (req, res) => {
-  res.send("Hello ini POST!");
+  if (req.name === "rizki") {
+    res.send("login berhasil");
+  }
 });
 
 // routes method PUT
