@@ -16,6 +16,50 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.patch("/movies/:id", async (req, res) => {
+  const movie_id = req.params.id;
+  const updatedMovie = req.body;
+
+  try {
+    const success = await updateMovie(movie_id, updatedMovie);
+
+    if (success) {
+      res.status(200).json({ message: "Movie updated successfully." });
+    } else {
+      res.status(404).json({ message: "Movie not found." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error updating movie", error });
+  }
+});
+
+app.delete("/movies/:id", async (req, res) => {
+  const movieId = req.params.id;
+  try {
+    const success = await deleteMovie(movieId);
+    if (success) {
+      res.json({ message: "Movie deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Movie not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting movie", error });
+  }
+});
+
+app.post("/movies", async (req, res) => {
+  const movie = req.body; // Data movie yang dikirim dalam body request
+  try {
+    const movieId = await insertMovie(movie);
+    res.status(201).json({
+      message: "Movie created successfully",
+      movieId: movieId, // Mengirimkan ID movie yang baru dibuat
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error inserting movie", error });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

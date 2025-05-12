@@ -1,5 +1,5 @@
 import mysql from "mysql2";
-export { getMovies, getMovie, insertMovie };
+export { getMovies, getMovie, insertMovie, updateMovie, deleteMovie };
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -66,4 +66,54 @@ async function insertMovie(movie) {
 
   const [result] = await pool.query(query, values);
   return result.insertId;
+}
+
+async function updateMovie(movie_id, updatedMovie) {
+  const {
+    genre_id,
+    nama_movie,
+    deskripsi_movie,
+    duration_movie,
+    realese_movie,
+    sampul_depan,
+    sampul_belakang,
+    video_movie,
+    video_trailler,
+  } = updatedMovie;
+
+  const query = `
+    UPDATE movie SET
+      genre_id = ?,
+      nama_movie = ?,
+      deskripsi_movie = ?,
+      duration_movie = ?,
+      realese_movie = ?,
+      sampul_depan = ?,
+      sampul_belakang = ?,
+      video_movie = ?,
+      video_trailler = ?
+    WHERE movie_id = ?
+  `;
+
+  const values = [
+    genre_id,
+    nama_movie,
+    deskripsi_movie,
+    duration_movie,
+    realese_movie,
+    sampul_depan,
+    sampul_belakang,
+    video_movie,
+    video_trailler,
+    movie_id, // kondisi WHERE di akhir
+  ];
+
+  const [result] = await pool.query(query, values);
+  return result.affectedRows > 0;
+}
+
+async function deleteMovie(movie_id) {
+  const query = `DELETE FROM movie WHERE movie_id = ?`;
+  const [result] = await pool.query(query, [movie_id]);
+  return result.affectedRows > 0;
 }
