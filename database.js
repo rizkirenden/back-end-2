@@ -18,7 +18,11 @@ async function getMovies() {
 }
 
 async function getMovie(id) {
-  const [rows] = await pool.query("SELECT * FROM movie WHERE id = ?", [id]);
+  console.log("Fetching movie with ID:", id);
+  const [rows] = await pool.query("SELECT * FROM movie WHERE movie_id = ?", [
+    id,
+  ]);
+  console.log("Rows fetched:", rows);
   return rows[0];
 }
 

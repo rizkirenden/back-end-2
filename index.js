@@ -1,18 +1,42 @@
 import express from "express";
-import { getMovies } from "./database.js";
+import {
+  getMovies,
+  getMovie,
+  insertMovie,
+  updateMovie,
+  deleteMovie,
+} from "./database.js";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-app.get("/", async (req, res) => {
+app.get("/movies", async (req, res) => {
   try {
     const movies = await getMovies();
     res.status(200).json(movies);
   } catch (err) {
     console.error("Error getting movies:", err);
     res.status(500).json({ error: "Gagal mengambil data movie." });
+  }
+});
+
+app.get("/movies/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log("Received ID:", id);
+  try {
+    const movie = await getMovie(id);
+    if (movie) {
+      res.status(200).json(movie);
+    } else {
+      res.status(404).json({ message: "Movie not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching movie:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching movie", error: error.message });
   }
 });
 
